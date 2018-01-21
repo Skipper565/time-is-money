@@ -6,5 +6,24 @@
 </head>
 <body>
     <p th:text="'Hello, ' + ${name} + '!'" />
+
+    <h2>Users</h2>
+
+    <table id="users" class="table table-striped">
+        <thead>
+        <tr>
+            <th style="width: 150px;">Username</th>
+            <th style="width: 200px;">Email</th>
+            <th style="width: 120px">Initial deposit</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.username}"/>
+            <td th:text="${user.email}"/>
+            <td th:text="${user.initial_deposit}"/>
+        </tr>
+        </tbody>
+    </table>
 </body>
 </html>

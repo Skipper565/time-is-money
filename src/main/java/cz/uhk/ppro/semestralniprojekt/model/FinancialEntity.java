@@ -7,10 +7,11 @@ import javax.persistence.Column;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @MappedSuperclass
-public class FinancialEntity extends BaseEntity {
+public class FinancialEntity implements Serializable {
 
     @Column(name = "value")
     @NotEmpty

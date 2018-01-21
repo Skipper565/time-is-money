@@ -1,15 +1,19 @@
 package cz.uhk.ppro.semestralniprojekt.user;
 
-import cz.uhk.ppro.semestralniprojekt.model.BaseEntity;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "users")
-public class User extends BaseEntity {
+public class User implements Serializable {
+
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_user")
+    @SequenceGenerator(name = "id_user", sequenceName = "SEQ_USER")
+    private Integer id;
 
     @Column(name = "username")
     @NotEmpty
@@ -26,6 +30,14 @@ public class User extends BaseEntity {
     @Column(name = "initial_deposit")
     @NotEmpty
     private float initial_deposit;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getUsername() {
         return username;
