@@ -39,6 +39,11 @@ public class UserValidator implements Validator {
         if (!user.getMatchingPassword().equals(user.getPassword())) {
             errors.rejectValue("passwordConfirm", "Diff.userForm.passwordConfirm");
         }
+
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "initialDeposit", "NotEmpty");
+        if (user.getInitialDeposit() < 0) {
+            errors.rejectValue("initialDeposit", "Size.userForm.initialDeposit");
+        }
     }
 
 }

@@ -31,7 +31,6 @@ public class User implements Serializable {
     private String matchingPassword;
 
     @Column(name = "initial_deposit")
-    @NotEmpty
     private float initialDeposit;
 
     public Integer getId() {

@@ -32,18 +32,18 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
-    public String registration(@ModelAttribute("userForm") User userForm, BindingResult bindingResult, Model model) {
-        userValidator.validate(userForm, bindingResult);
+    public String registration(@ModelAttribute("user") User user, BindingResult bindingResult, Model model) {
+        userValidator.validate(user, bindingResult);
 
         if (bindingResult.hasErrors()) {
             return "registration";
         }
 
-        userService.save(userForm);
+        userService.save(user);
 
-        securityService.autologin(userForm.getUsername(), userForm.getMatchingPassword());
+        securityService.autologin(user.getUsername(), user.getMatchingPassword());
 
-        return "redirect:/";
+        return "redirect:/test";
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
