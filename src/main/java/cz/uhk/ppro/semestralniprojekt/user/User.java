@@ -27,9 +27,12 @@ public class User implements Serializable {
     @NotEmpty
     private String password;
 
+    @Transient
+    private String matchingPassword;
+
     @Column(name = "initial_deposit")
     @NotEmpty
-    private float initial_deposit;
+    private float initialDeposit;
 
     public Integer getId() {
         return id;
@@ -63,12 +66,20 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public float getInitial_deposit() {
-        return initial_deposit;
+    public String getMatchingPassword() {
+        return matchingPassword;
     }
 
-    public void setInitial_deposit(float initial_deposit) {
-        this.initial_deposit = initial_deposit;
+    public void setMatchingPassword(String matchingPassword) {
+        this.matchingPassword = matchingPassword;
+    }
+
+    public float getInitialDeposit() {
+        return initialDeposit;
+    }
+
+    public void setInitialDeposit(float initialDeposit) {
+        this.initialDeposit = initialDeposit;
     }
 
 }

@@ -9,4 +9,5 @@ public class SemestralniProjektApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SemestralniProjektApplication.class, args);
 	}
+
 }
