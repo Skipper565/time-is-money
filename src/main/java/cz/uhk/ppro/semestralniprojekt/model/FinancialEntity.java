@@ -1,11 +1,10 @@
 package cz.uhk.ppro.semestralniprojekt.model;
 
 import cz.uhk.ppro.semestralniprojekt.user.User;
-import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @MappedSuperclass
 public class FinancialEntity implements Serializable {
@@ -15,10 +14,9 @@ public class FinancialEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "default_gen")
     private Integer id;
 
-    private LocalDateTime date;
+    private Date date;
 
     @Column(name = "value")
-    @NotEmpty
     private float value;
 
     @Column(name = "note")
@@ -39,11 +37,11 @@ public class FinancialEntity implements Serializable {
         this.id = id;
     }
 
-    public LocalDateTime getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(LocalDateTime date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 

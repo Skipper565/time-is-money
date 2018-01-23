@@ -20,10 +20,18 @@ public class FinancialServiceImpl implements FinancialService {
     @Override
     public void save(FinancialEntity entity) {
         if (entity.getType().equals("COST")) {
-            Cost cost = (Cost) entity;
+            Cost cost = new Cost();
+            cost.setDate(entity.getDate());
+            cost.setValue(entity.getValue());
+            cost.setNote(entity.getNote());
+            cost.setUser(entity.getUser());
             costRepository.save(cost);
         } else if (entity.getType().equals("REVENUE")) {
-            Revenue revenue = (Revenue) entity;
+            Revenue revenue = new Revenue();
+            revenue.setDate(entity.getDate());
+            revenue.setValue(entity.getValue());
+            revenue.setNote(entity.getNote());
+            revenue.setUser(entity.getUser());
             revenueRepository.save(revenue);
         }
     }

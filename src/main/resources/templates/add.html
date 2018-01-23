@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Time is money</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-10">
+                <div class="row justify-content-center">
+                    <h2>Add record</h2>
+                </div>
+                <div class="row justify-content-center">
+                    <form action="/add" th:object="${record}" method="POST" enctype="utf8">
+                        <input type="hidden" th:field="*{user}"/>
+                        <div class="row">
+                            <label>Type
+                                <select th:field="*{type}">
+                                    <option value="" selected="selected">Choose</option>
+                                    <option value="COST">Cost</option>
+                                    <option value="REVENUE">Revenue</option>
+                                </select>
+                            </label>
+                            <p th:each="error : ${#fields.errors('type')}"
+                               th:text="${error}">Validation error</p>
+                        </div>
+                        <div class="row">
+                            <label>Value
+                                <input th:field="*{value}"/>
+                            </label>
+                            <p th:each="error : ${#fields.errors('value')}"
+                               th:text="${error}">Validation error</p>
+                        </div>
+                        <div class="row">
+                            <label>Note
+                                <input th:field="*{note}"/>
+                            </label>
+                        </div>
+                        <div class="row">
+                            <label>Date
+                                <input class="form-control" type="text" name="date" placeholder="MM/DD/YYYY" th:field="*{date}"/>
+                            </label>
+                            <p th:each="error : ${#fields.errors('date')}"
+                               th:text="${error}">Validation error</p>
+                        </div>
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                        <div class="row justify-content-center">
+                            <button type="submit">Submit</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="row justify-content-center">
+                    <a href="/">Back to list</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.js"></script>
+    <script>
+        $(document).ready(function(){
+            var date_input=$('input[name="date"]');
+            date_input.datepicker({
+                todayHighlight: true,
+                autoclose: true,
+                orientation: "bottom auto"
+            })
+        })
+    </script>
+</body>
+</html>

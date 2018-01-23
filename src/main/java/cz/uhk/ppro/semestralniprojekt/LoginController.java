@@ -32,7 +32,7 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
-    public String registration(@ModelAttribute("user") User user, BindingResult bindingResult, Model model) {
+    public String registration(@ModelAttribute("user") User user, BindingResult bindingResult) {
         userValidator.validate(user, bindingResult);
 
         if (bindingResult.hasErrors()) {

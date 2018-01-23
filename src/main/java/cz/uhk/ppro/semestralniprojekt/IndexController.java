@@ -40,10 +40,7 @@ public class IndexController {
     }
 
     @RequestMapping(value={"*", "/", "/index", "index.php", "index.html"})
-    public String index(
-            Model model,
-            Principal principal
-    ) {
+    public String index(Model model, Principal principal) {
         User user = users.findByUsername(principal.getName());
         List<FinancialEntity> finance = new ArrayList<>(revenues.findByUserId(user.getId()));
         finance.addAll(costs.findByUserId(user.getId()));
@@ -59,13 +56,19 @@ public class IndexController {
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String add(@ModelAttribute("record") FinancialEntity entity, BindingResult bindingResult, Model model) {
+    public String add(
+            @ModelAttribute("record") FinancialEntity entity,
+            BindingResult bindingResult,
+            Principal principal
+    ) {
         financialValidator.validate(entity, bindingResult);
 
         if (bindingResult.hasErrors()) {
             return "add";
         }
 
+        User user = users.findByUsername(principal.getName());
+        entity.setUser(user);
         financialService.save(entity);
 
         return "redirect:/";
