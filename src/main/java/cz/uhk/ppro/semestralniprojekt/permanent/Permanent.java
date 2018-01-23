@@ -8,7 +8,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "permanent")
+@Table(name = "permanents")
 public class Permanent implements Serializable {
 
     @Id

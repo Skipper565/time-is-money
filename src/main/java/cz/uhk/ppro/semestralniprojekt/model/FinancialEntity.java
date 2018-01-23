@@ -3,22 +3,23 @@ package cz.uhk.ppro.semestralniprojekt.model;
 import cz.uhk.ppro.semestralniprojekt.user.User;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @MappedSuperclass
 public class FinancialEntity implements Serializable {
 
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "default_gen")
+    private Integer id;
+
+    private LocalDateTime date;
+
     @Column(name = "value")
     @NotEmpty
     private float value;
-
-    @Column(name = "date")
-    private LocalDateTime date;
 
     @Column(name = "note")
     private String note;
@@ -27,12 +28,15 @@ public class FinancialEntity implements Serializable {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public float getValue() {
-        return value;
+    @Transient
+    private String type;
+
+    public Integer getId() {
+        return id;
     }
 
-    public void setValue(float value) {
-        this.value = value;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public LocalDateTime getDate() {
@@ -41,6 +45,14 @@ public class FinancialEntity implements Serializable {
 
     public void setDate(LocalDateTime date) {
         this.date = date;
+    }
+
+    public float getValue() {
+        return value;
+    }
+
+    public void setValue(float value) {
+        this.value = value;
     }
 
     public String getNote() {
@@ -57,6 +69,14 @@ public class FinancialEntity implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
 }

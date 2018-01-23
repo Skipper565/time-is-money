@@ -6,19 +6,8 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "revenues")
-public class Revenue extends FinancialEntity {
-
-    @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_revenue")
-    @SequenceGenerator(name = "id_revenue", sequenceName = "SEQ_REVENUE")
-    private Integer id;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-}
+@AttributeOverrides({
+        @AttributeOverride(name = "date", column = @Column(name = "rev_date")),
+})
+@SequenceGenerator(name = "default_gen", sequenceName = "SEQ_REVENUE")
+public class Revenue extends FinancialEntity {}

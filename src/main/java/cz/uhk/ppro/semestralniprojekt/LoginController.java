@@ -43,7 +43,7 @@ public class LoginController {
 
         securityService.autologin(user.getUsername(), user.getMatchingPassword());
 
-        return "redirect:/test";
+        return "redirect:/";
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
