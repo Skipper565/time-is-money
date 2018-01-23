@@ -12,32 +12,34 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-10">
-                <h2>Time is money</h2>
                 <div class="row justify-content-center">
-                    <form th:action="@{/login}" method="post">
-                        <div class="row justify-content-center">
-                            <label>Username
-                                <input type="text" name="username"/>
-                            </label>
-                        </div>
-                        <div class="row justify-content-center" th:if="${param.error}">
-                            Invalid username and password.
-                        </div>
-                        <div class="row justify-content-center" th:if="${param.logout}">
-                            You have been logged out.
-                        </div>
-                        <div class="row justify-content-center">
-                            <label>Password
-                                <input type="password" name="password"/>
-                            </label>
-                        </div>
-                        <div class="row justify-content-center">
-                            <input type="submit" value="Sign In"/>
-                        </div>
-                    </form>
+                    <h2><p th:text="'Hello, ' + ${#authentication.name} + '!'" /></h2>
                 </div>
                 <div class="row justify-content-center">
-                    <a href="/registration">Registration</a>
+                    <h1>Your finance</h1>
+                </div>
+                <div class="row justify-content-end">
+                    <a href="/add">Add record</a>
+                </div>
+
+                <table id="finance" class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th style="width: 150px;">Date</th>
+                        <th style="width: 200px;">Note</th>
+                        <th style="width: 120px">Value</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="fin : ${finance}">
+                        <td th:text="${fin.date}"/>
+                        <td th:text="${fin.note}"/>
+                        <td th:text="${fin.value}"/>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="row justify-content-center">
+                    <a th:href="@{/logout}">Sign Out</a>
                 </div>
             </div>
         </div>
