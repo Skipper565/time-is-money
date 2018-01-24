@@ -3,6 +3,8 @@ package cz.uhk.ppro.semestralniprojekt.service;
 import cz.uhk.ppro.semestralniprojekt.cost.Cost;
 import cz.uhk.ppro.semestralniprojekt.cost.CostRepository;
 import cz.uhk.ppro.semestralniprojekt.model.FinancialEntity;
+import cz.uhk.ppro.semestralniprojekt.permanent.Permanent;
+import cz.uhk.ppro.semestralniprojekt.permanent.PermanentRepository;
 import cz.uhk.ppro.semestralniprojekt.revenue.Revenue;
 import cz.uhk.ppro.semestralniprojekt.revenue.RevenueRepository;
 import cz.uhk.ppro.semestralniprojekt.user.User;
@@ -20,6 +22,9 @@ public class FinancialServiceImpl implements FinancialService {
 
     @Autowired
     private RevenueRepository revenueRepository;
+
+    @Autowired
+    private PermanentRepository permanentRepository;
 
     @Override
     public List<FinancialEntity> getAllFinancialEntitiesForUser(Integer userId) {
@@ -48,8 +53,20 @@ public class FinancialServiceImpl implements FinancialService {
 
         if (entityType.equals("cost")) {
             entity = costRepository.findOneByIdAndUserId(entityId, user.getId());
+
+            Permanent permanent = permanentRepository.findOneByCostId(entityId);
+            if (entity != null && permanent != null) {
+                entity.setIsPermanent(true);
+                entity.setMonthDay(permanent.getMonthDay());
+            }
         } else if (entityType.equals("revenue")) {
             entity = revenueRepository.findOneByIdAndUserId(entityId, user.getId());
+
+            Permanent permanent = permanentRepository.findOneByRevenueId(entityId);
+            if (entity != null && permanent != null) {
+                entity.setIsPermanent(true);
+                entity.setMonthDay(permanent.getMonthDay());
+            }
         }
 
         if (entity != null) {
@@ -63,20 +80,50 @@ public class FinancialServiceImpl implements FinancialService {
     public void save(FinancialEntity entity) {
         if (entity.getType().equals("cost")) {
             Cost cost = new Cost();
+            Permanent permanent = permanentRepository.findOneByCostId(entity.getId());
+
             cost.setId(entity.getId());
             cost.setDate(entity.getDate());
             cost.setValue(entity.getValue());
             cost.setNote(entity.getNote());
             cost.setUser(entity.getUser());
-            costRepository.save(cost);
+
+            cost = costRepository.save(cost);
+
+            if (entity.getIsPermanent()) {
+                if (permanent == null) {
+                    permanent = new Permanent();
+                }
+                permanent.setCost(cost);
+                permanent.setMonthDay(entity.getMonthDay());
+
+                permanentRepository.save(permanent);
+            } else if (permanent != null) {
+                permanentRepository.delete(permanent);
+            }
         } else if (entity.getType().equals("revenue")) {
             Revenue revenue = new Revenue();
+            Permanent permanent = permanentRepository.findOneByRevenueId(entity.getId());
+
             revenue.setId(entity.getId());
             revenue.setDate(entity.getDate());
             revenue.setValue(entity.getValue());
             revenue.setNote(entity.getNote());
             revenue.setUser(entity.getUser());
-            revenueRepository.save(revenue);
+
+            revenue = revenueRepository.save(revenue);
+
+            if (entity.getIsPermanent()) {
+                if (permanent == null) {
+                    permanent = new Permanent();
+                }
+                permanent.setRevenue(revenue);
+                permanent.setMonthDay(entity.getMonthDay());
+
+                permanentRepository.save(permanent);
+            } else if (permanent != null) {
+                permanentRepository.delete(permanent);
+            }
         }
     }
 
@@ -85,11 +132,19 @@ public class FinancialServiceImpl implements FinancialService {
         if (entityType.equals("cost")) {
             Cost entity = costRepository.findOneByIdAndUserId(entityId, user.getId());
             if (entity != null) {
+                if (entity.getPermanent() != null) {
+                    permanentRepository.delete(entity.getPermanent());
+                }
+
                 costRepository.delete(entity);
             }
         } else if (entityType.equals("revenue")) {
             Revenue entity = revenueRepository.findOneByIdAndUserId(entityId, user.getId());
             if (entity != null) {
+                if (entity.getPermanent() != null) {
+                    permanentRepository.delete(entity.getPermanent());
+                }
+
                 revenueRepository.delete(entity);
             }
         }

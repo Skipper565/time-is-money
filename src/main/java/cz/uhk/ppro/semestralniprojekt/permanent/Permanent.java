@@ -2,7 +2,6 @@ package cz.uhk.ppro.semestralniprojekt.permanent;
 
 import cz.uhk.ppro.semestralniprojekt.cost.Cost;
 import cz.uhk.ppro.semestralniprojekt.revenue.Revenue;
-import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -17,17 +16,16 @@ public class Permanent implements Serializable {
     @SequenceGenerator(name = "id_permanent", sequenceName = "SEQ_PERMANENT")
     private Integer id;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "revenue_id")
     private Revenue revenue;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "cost_id")
     private Cost cost;
 
     @Column(name = "month_day")
-    @NotEmpty
-    private int month_day;
+    private int monthDay;
 
     public Integer getId() {
         return id;
@@ -53,12 +51,12 @@ public class Permanent implements Serializable {
         this.cost = cost;
     }
 
-    public int getMonth_day() {
-        return month_day;
+    public int getMonthDay() {
+        return monthDay;
     }
 
-    public void setMonth_day(int month_day) {
-        this.month_day = month_day;
+    public void setMonthDay(int monthDay) {
+        this.monthDay = monthDay;
     }
 
 }

@@ -32,7 +32,7 @@ public class FinancialEntity implements Serializable {
     private String type;
 
     @Transient
-    private Boolean permanent;
+    private Boolean isPermanent = false;
 
     @Transient
     private Integer monthDay;
@@ -85,12 +85,12 @@ public class FinancialEntity implements Serializable {
         this.type = type;
     }
 
-    public Boolean getPermanent() {
-        return permanent;
+    public Boolean getIsPermanent() {
+        return isPermanent;
     }
 
-    public void setPermanent(Boolean permanent) {
-        this.permanent = permanent;
+    public void setIsPermanent(Boolean isPermanent) {
+        this.isPermanent = isPermanent;
     }
 
     public Integer getMonthDay() {
@@ -100,4 +100,5 @@ public class FinancialEntity implements Serializable {
     public void setMonthDay(Integer monthDay) {
         this.monthDay = monthDay;
     }
+
 }
