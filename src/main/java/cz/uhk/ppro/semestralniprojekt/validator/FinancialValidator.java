@@ -26,6 +26,10 @@ public class FinancialValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "date", "NotEmpty");
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "type", "NotEmpty");
+
+        if (entity.getMonthDay() != null && (entity.getMonthDay() < 1 || entity.getMonthDay() > 28)) {
+            errors.rejectValue("monthDay", "Size.financeForm.monthDay");
+        }
     }
 
 }
