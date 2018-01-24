@@ -33,7 +33,7 @@
                     </thead>
                     <tbody>
                     <tr th:each="fin : ${finance}">
-                        <td th:text="${fin.date}"/>
+                        <td th:text="${#dates.format(fin.date, 'MM/dd/yyyy')}"/>
                         <td th:text="${fin.note}"/>
                         <td th:text="${fin.value}"/>
                         <td><a th:href="'/edit/' + ${fin.type} + '/' + ${fin.id}">Edit</a> | <a th:href="'/delete/' + ${fin.type} + '/' + ${fin.id}">Delete</a></td>

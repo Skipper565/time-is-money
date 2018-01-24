@@ -1,6 +1,7 @@
 package cz.uhk.ppro.semestralniprojekt.model;
 
 import cz.uhk.ppro.semestralniprojekt.user.User;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -14,6 +15,7 @@ public class FinancialEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "default_gen")
     private Integer id;
 
+    @DateTimeFormat(pattern = "MM/dd/yyyy")
     private Date date;
 
     @Column(name = "value")
@@ -28,6 +30,12 @@ public class FinancialEntity implements Serializable {
 
     @Transient
     private String type;
+
+    @Transient
+    private Boolean permanent;
+
+    @Transient
+    private Integer monthDay;
 
     public Integer getId() {
         return id;
@@ -77,4 +85,19 @@ public class FinancialEntity implements Serializable {
         this.type = type;
     }
 
+    public Boolean getPermanent() {
+        return permanent;
+    }
+
+    public void setPermanent(Boolean permanent) {
+        this.permanent = permanent;
+    }
+
+    public Integer getMonthDay() {
+        return monthDay;
+    }
+
+    public void setMonthDay(Integer monthDay) {
+        this.monthDay = monthDay;
+    }
 }
