@@ -8,4 +8,6 @@ public interface RevenueRepository extends CrudRepository<Revenue, Integer> {
 
     List<Revenue> findByUserId(Integer userId);
 
+    Revenue findOneByIdAndUserId(Integer id, Integer userId);
+
 }

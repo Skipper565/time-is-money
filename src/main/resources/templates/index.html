@@ -28,6 +28,7 @@
                         <th style="width: 150px;">Date</th>
                         <th style="width: 200px;">Note</th>
                         <th style="width: 120px">Value</th>
+                        <th style="width: 100px">Action</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -35,6 +36,7 @@
                         <td th:text="${fin.date}"/>
                         <td th:text="${fin.note}"/>
                         <td th:text="${fin.value}"/>
+                        <td><a th:href="'/edit/' + ${fin.type} + '/' + ${fin.id}">Edit</a> | <a th:href="'/delete/' + ${fin.type} + '/' + ${fin.id}">Delete</a></td>
                     </tr>
                     </tbody>
                 </table>

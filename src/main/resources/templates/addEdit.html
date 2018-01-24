@@ -17,14 +17,14 @@
                     <h2>Add record</h2>
                 </div>
                 <div class="row justify-content-center">
-                    <form action="/add" th:object="${record}" method="POST" enctype="utf8">
-                        <input type="hidden" th:field="*{user}"/>
+                    <form action="/addEdit" th:object="${record}" method="POST" enctype="utf8">
+                        <input type="hidden" th:field="*{id}"/>
                         <div class="row">
                             <label>Type
-                                <select th:field="*{type}">
-                                    <option value="" selected="selected">Choose</option>
-                                    <option value="COST">Cost</option>
-                                    <option value="REVENUE">Revenue</option>
+                                <select name="type">
+                                    <option th:selected="${record.type == null}">Choose</option>
+                                    <option th:selected="${record.type == 'cost'}" value="cost">Cost</option>
+                                    <option th:selected="${record.type == 'revenue'}" value="revenue">Revenue</option>
                                 </select>
                             </label>
                             <p th:each="error : ${#fields.errors('type')}"
