@@ -19,6 +19,9 @@
                     <h1 th:text="'Your finance for ' + ${monthName} + ' ' + ${yearName}"></h1>
                 </div>
                 <div class="row justify-content-center">
+                    <p><a th:href="@{/(month=${prevMonth})}">Previous month</a> | <a th:href="@{/(month=${nextMonth})}">Next month</a></p>
+                </div>
+                <div class="row justify-content-center">
                     <a href="/add">Add record</a>
                 </div>
 

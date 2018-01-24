@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.time.LocalDate;
@@ -40,10 +37,19 @@ public class IndexController {
     }
 
     @RequestMapping(value={"*", "/", "/index", "index.php", "index.html"})
-    public String index(Model model, Principal principal) {
+    public String index(@RequestParam(value = "month", required = false) String month, Model model, Principal principal) {
+        DateTimeFormatter monthDateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         User user = users.findByUsername(principal.getName());
-
         LocalDate date = LocalDate.now();
+
+        if (month != null) {
+            try {
+                date = LocalDate.parse("01-" + month, monthDateFormatter);
+            } catch (java.time.format.DateTimeParseException e) {
+                date = LocalDate.now();
+            }
+        }
+
         ValueRange range = date.range(ChronoField.DAY_OF_MONTH);
         Long min = range.getMinimum();
         Long max = range.getMaximum();
@@ -116,11 +122,16 @@ public class IndexController {
     }
 
     private void setDatesToModel(Model model, LocalDate startDate, LocalDate endDate) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        DateTimeFormatter linkDateFormatter = DateTimeFormatter.ofPattern("MM-yyyy");
+        DateTimeFormatter humanDateFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        LocalDate prevMonth = startDate.minusMonths(1);
+        LocalDate nextMonth = startDate.plusMonths(1);
         String monthName = startDate.getMonth().getDisplayName(TextStyle.FULL, Locale.ENGLISH);
         Integer yearName = startDate.getYear();
-        model.addAttribute("startDate", startDate.format(formatter));
-        model.addAttribute("endDate", endDate.format(formatter));
+        model.addAttribute("prevMonth", prevMonth.format(linkDateFormatter));
+        model.addAttribute("nextMonth", nextMonth.format(linkDateFormatter));
+        model.addAttribute("startDate", startDate.format(humanDateFormatter));
+        model.addAttribute("endDate", endDate.format(humanDateFormatter));
         model.addAttribute("monthName", monthName.toLowerCase());
         model.addAttribute("yearName", yearName);
     }
