@@ -79,51 +79,9 @@ public class FinancialServiceImpl implements FinancialService {
     @Override
     public void save(FinancialEntity entity) {
         if (entity.getType().equals("cost")) {
-            Cost cost = new Cost();
-            Permanent permanent = permanentRepository.findOneByCostId(entity.getId());
-
-            cost.setId(entity.getId());
-            cost.setDate(entity.getDate());
-            cost.setValue(entity.getValue());
-            cost.setNote(entity.getNote());
-            cost.setUser(entity.getUser());
-
-            cost = costRepository.save(cost);
-
-            if (entity.getIsPermanent()) {
-                if (permanent == null) {
-                    permanent = new Permanent();
-                }
-                permanent.setCost(cost);
-                permanent.setMonthDay(entity.getMonthDay());
-
-                permanentRepository.save(permanent);
-            } else if (permanent != null) {
-                permanentRepository.delete(permanent);
-            }
+            saveCost(entity);
         } else if (entity.getType().equals("revenue")) {
-            Revenue revenue = new Revenue();
-            Permanent permanent = permanentRepository.findOneByRevenueId(entity.getId());
-
-            revenue.setId(entity.getId());
-            revenue.setDate(entity.getDate());
-            revenue.setValue(entity.getValue());
-            revenue.setNote(entity.getNote());
-            revenue.setUser(entity.getUser());
-
-            revenue = revenueRepository.save(revenue);
-
-            if (entity.getIsPermanent()) {
-                if (permanent == null) {
-                    permanent = new Permanent();
-                }
-                permanent.setRevenue(revenue);
-                permanent.setMonthDay(entity.getMonthDay());
-
-                permanentRepository.save(permanent);
-            } else if (permanent != null) {
-                permanentRepository.delete(permanent);
-            }
+            saveRevenue(entity);
         }
     }
 
@@ -147,6 +105,56 @@ public class FinancialServiceImpl implements FinancialService {
 
                 revenueRepository.delete(entity);
             }
+        }
+    }
+
+    private void saveCost(FinancialEntity entity) {
+        Cost cost = new Cost();
+        Permanent permanent = permanentRepository.findOneByCostId(entity.getId());
+
+        cost.setId(entity.getId());
+        cost.setDate(entity.getDate());
+        cost.setValue(entity.getValue());
+        cost.setNote(entity.getNote());
+        cost.setUser(entity.getUser());
+
+        cost = costRepository.save(cost);
+
+        if (entity.getIsPermanent()) {
+            if (permanent == null) {
+                permanent = new Permanent();
+            }
+            permanent.setCost(cost);
+            permanent.setMonthDay(entity.getMonthDay());
+
+            permanentRepository.save(permanent);
+        } else if (permanent != null) {
+            permanentRepository.delete(permanent);
+        }
+    }
+
+    private void saveRevenue(FinancialEntity entity) {
+        Revenue revenue = new Revenue();
+        Permanent permanent = permanentRepository.findOneByRevenueId(entity.getId());
+
+        revenue.setId(entity.getId());
+        revenue.setDate(entity.getDate());
+        revenue.setValue(entity.getValue());
+        revenue.setNote(entity.getNote());
+        revenue.setUser(entity.getUser());
+
+        revenue = revenueRepository.save(revenue);
+
+        if (entity.getIsPermanent()) {
+            if (permanent == null) {
+                permanent = new Permanent();
+            }
+            permanent.setRevenue(revenue);
+            permanent.setMonthDay(entity.getMonthDay());
+
+            permanentRepository.save(permanent);
+        } else if (permanent != null) {
+            permanentRepository.delete(permanent);
         }
     }
 
