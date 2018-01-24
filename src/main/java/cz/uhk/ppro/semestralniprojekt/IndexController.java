@@ -15,7 +15,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.security.Principal;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
+import java.time.temporal.ChronoField;
+import java.time.temporal.ValueRange;
 import java.util.List;
+import java.util.Locale;
 
 @Controller
 public class IndexController {
@@ -37,9 +43,17 @@ public class IndexController {
     public String index(Model model, Principal principal) {
         User user = users.findByUsername(principal.getName());
 
-        List<FinancialEntity> finance = financialService.getAllFinancialEntitiesForUser(user.getId());
+        LocalDate date = LocalDate.now();
+        ValueRange range = date.range(ChronoField.DAY_OF_MONTH);
+        Long min = range.getMinimum();
+        Long max = range.getMaximum();
+        LocalDate startDate = date.withDayOfMonth(min.intValue());
+        LocalDate endDate = date.withDayOfMonth(max.intValue());
+        setDatesToModel(model, startDate, endDate);
 
+        List<FinancialEntity> finance = financialService.getIntervalFinancialEntitiesForUser(user.getId(), startDate, endDate);
         model.addAttribute("finance", finance);
+        setMonthBalancesToModel(model, user, finance, startDate);
         return "index";
     }
 
@@ -99,6 +113,25 @@ public class IndexController {
         financialService.deleteCostOrRevenue(user, entityType, entityId);
 
         return "redirect:/";
+    }
+
+    private void setDatesToModel(Model model, LocalDate startDate, LocalDate endDate) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        String monthName = startDate.getMonth().getDisplayName(TextStyle.FULL, Locale.ENGLISH);
+        Integer yearName = startDate.getYear();
+        model.addAttribute("startDate", startDate.format(formatter));
+        model.addAttribute("endDate", endDate.format(formatter));
+        model.addAttribute("monthName", monthName.toLowerCase());
+        model.addAttribute("yearName", yearName);
+    }
+
+    private void setMonthBalancesToModel(Model model, User user, List<FinancialEntity> finance, LocalDate startDate) {
+        Float previousSumBalance = financialService.sumBalanceForUserDueDate(user.getId(), startDate);
+        Float currentMonthBalance = financialService.countBalance(finance);
+        Float startBalance = user.getInitialDeposit() + previousSumBalance;
+        Float endBalance = startBalance + currentMonthBalance;
+        model.addAttribute("startBalance", startBalance);
+        model.addAttribute("endBalance", endBalance);
     }
 
 }

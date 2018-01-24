@@ -11,6 +11,8 @@ import cz.uhk.ppro.semestralniprojekt.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,11 +29,11 @@ public class FinancialServiceImpl implements FinancialService {
     private PermanentRepository permanentRepository;
 
     @Override
-    public List<FinancialEntity> getAllFinancialEntitiesForUser(Integer userId) {
+    public List<FinancialEntity> getIntervalFinancialEntitiesForUser(Integer userId, LocalDate startDate, LocalDate endDate) {
         List<FinancialEntity> finance = new ArrayList<>();
 
-        List<Revenue> revenueList = revenueRepository.findByUserId(userId);
-        List<Cost> costList = costRepository.findByUserId(userId);
+        List<Revenue> revenueList = revenueRepository.findByUserIdAndDateBetween(userId, Date.valueOf(startDate), Date.valueOf(endDate));
+        List<Cost> costList = costRepository.findByUserIdAndDateBetween(userId, Date.valueOf(startDate), Date.valueOf(endDate));
 
         for (Revenue revenue : revenueList) {
             revenue.setType("revenue");
@@ -45,6 +47,37 @@ public class FinancialServiceImpl implements FinancialService {
         finance.addAll(costList);
 
         return finance;
+    }
+
+    @Override
+    public Float sumBalanceForUserDueDate(Integer userId, LocalDate date) {
+        Float balance = 0f;
+        Float sumRevenues = revenueRepository.sumValueByUserIdAndDateLessThen(userId, Date.valueOf(date));
+        Float sumCosts = costRepository.sumValueByUserIdAndDateLessThen(userId, Date.valueOf(date));
+        if (sumRevenues != null) {
+            balance += sumRevenues;
+        }
+
+        if (sumCosts != null) {
+            balance -= sumCosts;
+        }
+
+        return balance;
+    }
+
+    @Override
+    public Float countBalance(List<FinancialEntity> entities) {
+        Float result = 0f;
+
+        for (FinancialEntity entity : entities) {
+            if (entity.getType().equals("cost")) {
+                result -= entity.getValue();
+            } else if (entity.getType().equals("revenue")) {
+                result += entity.getValue();
+            }
+        }
+
+        return result;
     }
 
     @Override

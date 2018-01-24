@@ -43,13 +43,6 @@
                             </label>
                         </div>
                         <div class="row">
-                            <label>Date
-                                <input class="form-control" type="text" name="date" placeholder="MM/DD/YYYY" th:field="*{date}"/>
-                            </label>
-                            <p th:each="error : ${#fields.errors('date')}"
-                               th:text="${error}">Validation error</p>
-                        </div>
-                        <div class="row">
                             <label>
                                 <input type="checkbox" id="permanent" class="form-check-input" th:field="*{isPermanent}"/> Permanent
                             </label>
@@ -58,6 +51,13 @@
                             <label>Month day
                                 <input th:field="*{monthDay}"/>
                             </label>
+                        </div>
+                        <div class="row">
+                            <label>Date
+                                <input class="form-control" type="text" name="date" placeholder="MM/DD/YYYY" th:field="*{date}"/>
+                            </label>
+                            <p th:each="error : ${#fields.errors('date')}"
+                               th:text="${error}">Validation error</p>
                         </div>
                         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                         <div class="row justify-content-center">

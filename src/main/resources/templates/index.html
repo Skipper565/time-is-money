@@ -16,13 +16,13 @@
                     <h2><p th:text="'Hello, ' + ${#authentication.name} + '!'" /></h2>
                 </div>
                 <div class="row justify-content-center">
-                    <h1>Your finance</h1>
+                    <h1 th:text="'Your finance for ' + ${monthName} + ' ' + ${yearName}"></h1>
                 </div>
-                <div class="row justify-content-end">
+                <div class="row justify-content-center">
                     <a href="/add">Add record</a>
                 </div>
 
-                <table id="finance" class="table table-striped">
+                <table id="finance" class="table table-hover">
                     <thead>
                     <tr>
                         <th style="width: 150px;">Date</th>
@@ -32,11 +32,21 @@
                     </tr>
                     </thead>
                     <tbody>
+                    <tr class="table-primary">
+                        <td th:text="${startDate}"/>
+                        <td>Balance at the beginning of the month.</td>
+                        <td colspan="2" th:text="${startBalance}"/>
+                    </tr>
                     <tr th:each="fin : ${finance}">
                         <td th:text="${#dates.format(fin.date, 'MM/dd/yyyy')}"/>
                         <td th:text="${fin.note}"/>
                         <td th:text="${fin.value}"/>
                         <td><a th:href="'/edit/' + ${fin.type} + '/' + ${fin.id}">Edit</a> | <a th:href="'/delete/' + ${fin.type} + '/' + ${fin.id}">Delete</a></td>
+                    </tr>
+                    <tr class="table-primary">
+                        <td th:text="${endDate}"/>
+                        <td>Balance at the beginning of the month.</td>
+                        <td colspan="2" th:text="${endBalance}"/>
                     </tr>
                     </tbody>
                 </table>
