@@ -13,20 +13,20 @@ public class FinancialEntity implements Serializable {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "default_gen")
-    private Integer id;
+    protected Integer id;
 
     @DateTimeFormat(pattern = "MM/dd/yyyy")
-    private Date date;
+    protected Date date;
 
     @Column(name = "value")
-    private float value;
+    protected float value;
 
     @Column(name = "note")
-    private String note;
+    protected String note;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    protected User user;
 
     @Transient
     private String type;

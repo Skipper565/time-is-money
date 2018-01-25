@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,8 +34,30 @@ public class FinancialServiceImpl implements FinancialService {
     public List<FinancialEntity> getIntervalFinancialEntitiesForUser(Integer userId, LocalDate startDate, LocalDate endDate) {
         List<FinancialEntity> finance = new ArrayList<>();
 
-        List<Revenue> revenueList = revenueRepository.findByUserIdAndDateBetween(userId, Date.valueOf(startDate), Date.valueOf(endDate));
-        List<Cost> costList = costRepository.findByUserIdAndDateBetween(userId, Date.valueOf(startDate), Date.valueOf(endDate));
+        List<Revenue> revenueList = revenueRepository.findByUserIdAndDateBetweenAndPermanentIsNull(userId, Date.valueOf(startDate), Date.valueOf(endDate));
+        List<Cost> costList = costRepository.findByUserIdAndDateBetweenAndPermanentIsNull(userId, Date.valueOf(startDate), Date.valueOf(endDate));
+        List<Revenue> revenuePermanentList = revenueRepository.findPermanentsByUserId(userId);
+        List<Cost> costPermanentList = costRepository.findPermanentsByUserId(userId);
+
+        for (Revenue revenue : revenuePermanentList) {
+            Permanent permanent = permanentRepository.findOneByRevenueId(revenue.getId());
+            Date permanentDateInCurrentMonth = Date.valueOf(startDate.plusDays(permanent.getMonthDay() - 1));
+            if (permanentDateInCurrentMonth.compareTo(revenue.getDate()) >= 0) {
+                Revenue copy = new Revenue(revenue);
+                copy.setDate(permanentDateInCurrentMonth);
+                revenueList.add(copy);
+            }
+        }
+
+        for (Cost cost : costPermanentList) {
+            Permanent permanent = permanentRepository.findOneByCostId(cost.getId());
+            Date permanentDateInCurrentMonth = Date.valueOf(startDate.plusDays(permanent.getMonthDay() - 1));
+            if (permanentDateInCurrentMonth.compareTo(cost.getDate()) >= 0) {
+                Cost copy = new Cost(cost);
+                copy.setDate(permanentDateInCurrentMonth);
+                costList.add(copy);
+            }
+        }
 
         for (Revenue revenue : revenueList) {
             revenue.setType("revenue");
@@ -52,8 +76,35 @@ public class FinancialServiceImpl implements FinancialService {
     @Override
     public Float sumBalanceForUserDueDate(Integer userId, LocalDate date) {
         Float balance = 0f;
-        Float sumRevenues = revenueRepository.sumValueByUserIdAndDateLessThen(userId, Date.valueOf(date));
-        Float sumCosts = costRepository.sumValueByUserIdAndDateLessThen(userId, Date.valueOf(date));
+        Float sumRevenues = revenueRepository.sumValueByUserIdAndDateLessThan(userId, Date.valueOf(date));
+        Float sumCosts = costRepository.sumValueByUserIdAndDateLessThan(userId, Date.valueOf(date));
+        List<Revenue> revenuePermanentList = revenueRepository.findPermanentsByUserId(userId);
+        List<Cost> costPermanentList = costRepository.findPermanentsByUserId(userId);
+
+        for (Revenue revenue : revenuePermanentList) {
+            LocalDate revenueDate = revenue.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            long monthDiff = ChronoUnit.MONTHS.between(revenueDate, date);
+            if (monthDiff > 0) {
+                if (sumRevenues == null) {
+                    sumRevenues = 0f;
+                }
+
+                sumRevenues += (revenue.getValue() * monthDiff);
+            }
+        }
+
+        for (Cost cost : costPermanentList) {
+            LocalDate costDate = cost.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            long monthDiff = ChronoUnit.MONTHS.between(costDate, date);
+            if (monthDiff > 0) {
+                if (sumCosts == null) {
+                    sumCosts = 0f;
+                }
+
+                sumCosts += (cost.getValue() * monthDiff);
+            }
+        }
+
         if (sumRevenues != null) {
             balance += sumRevenues;
         }

@@ -14,6 +14,17 @@ public class Revenue extends FinancialEntity {
     @OneToOne(mappedBy = "revenue")
     private Permanent permanent;
 
+    public Revenue() {}
+
+    public Revenue(Revenue revenue) {
+        this.id = revenue.id;
+        this.date = revenue.date;
+        this.value = revenue.value;
+        this.note = revenue.note;
+        this.user = revenue.user;
+        this.permanent = revenue.permanent;
+    }
+
     public Permanent getPermanent() {
         return permanent;
     }

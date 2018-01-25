@@ -14,6 +14,17 @@ public class Cost extends FinancialEntity {
     @OneToOne(mappedBy = "cost")
     private Permanent permanent;
 
+    public Cost() {}
+
+    public Cost(Cost cost) {
+        this.id = cost.id;
+        this.date = cost.date;
+        this.value = cost.value;
+        this.note = cost.note;
+        this.user = cost.user;
+        this.permanent = cost.permanent;
+    }
+
     public Permanent getPermanent() {
         return permanent;
     }

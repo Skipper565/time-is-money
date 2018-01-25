@@ -8,10 +8,13 @@ import java.util.List;
 
 public interface RevenueRepository extends CrudRepository<Revenue, Integer> {
 
-    List<Revenue> findByUserIdAndDateBetween(Integer userId, Date start, Date end);
+    List<Revenue> findByUserIdAndDateBetweenAndPermanentIsNull(Integer userId, Date start, Date end);
 
-    @Query("select sum(r.value) from Revenue r where r.user.id = ?1 and r.date < ?2")
-    Float sumValueByUserIdAndDateLessThen(Integer userId, Date end);
+    @Query("select r from Revenue r inner join r.user u inner join r.permanent p where u.id = ?1")
+    List<Revenue> findPermanentsByUserId(Integer userId);
+
+    @Query("select sum(r.value) from Revenue r inner join r.user u left outer join r.permanent p where u.id = ?1 and r.date < ?2 and p is null")
+    Float sumValueByUserIdAndDateLessThan(Integer userId, Date end);
 
     Revenue findOneByIdAndUserId(Integer id, Integer userId);
 

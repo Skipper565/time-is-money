@@ -51,6 +51,8 @@
                             <label>Month day
                                 <input th:field="*{monthDay}"/>
                             </label>
+                            <p th:each="error : ${#fields.errors('date')}"
+                               th:text="${error}">Validation error</p>
                         </div>
                         <div class="row">
                             <label>Date
