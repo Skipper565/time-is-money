@@ -31,14 +31,19 @@ public class LoginController {
     private UserValidator userValidator;
 
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
-    public String registration(Model model) {
+    public String registration(
+            Model model
+    ) {
         model.addAttribute("user", new User());
 
         return "registration";
     }
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
-    public String registration(@ModelAttribute("user") User user, BindingResult bindingResult) {
+    public String registration(
+            @ModelAttribute("user") User user,
+            BindingResult bindingResult
+    ) {
         userValidator.validate(user, bindingResult);
 
         if (bindingResult.hasErrors()) {
@@ -53,7 +58,11 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String login(Model model, String error, String logout) {
+    public String login(
+            Model model,
+            String error,
+            String logout
+    ) {
         if (error != null)
             model.addAttribute("error", "Your username and password is invalid.");
 
@@ -64,7 +73,10 @@ public class LoginController {
     }
 
     @RequestMapping(value="/logout", method = RequestMethod.GET)
-    public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
+    public String logoutPage(
+            HttpServletRequest request,
+            HttpServletResponse response
+    ) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null){
             new SecurityContextLogoutHandler().logout(request, response, auth);

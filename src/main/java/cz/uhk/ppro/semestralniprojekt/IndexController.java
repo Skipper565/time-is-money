@@ -37,7 +37,11 @@ public class IndexController {
     }
 
     @RequestMapping(value={"*", "/", "/index", "index.php", "index.html"})
-    public String index(@RequestParam(value = "month", required = false) String month, Model model, Principal principal) {
+    public String index(
+            @RequestParam(value = "month", required = false) String month,
+            Model model,
+            Principal principal
+    ) {
         DateTimeFormatter monthDateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         User user = users.findByUsername(principal.getName());
         LocalDate date = LocalDate.now();
@@ -57,14 +61,17 @@ public class IndexController {
         LocalDate endDate = date.withDayOfMonth(max.intValue());
         setDatesToModel(model, startDate, endDate);
 
-        List<FinancialEntity> finance = financialService.getIntervalFinancialEntitiesForUser(user.getId(), startDate, endDate);
+        List<FinancialEntity> finance =
+                financialService.getIntervalFinancialEntitiesForUser(user.getId(), startDate, endDate);
         model.addAttribute("finance", finance);
         setMonthBalancesToModel(model, user, finance, startDate);
         return "index";
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.GET)
-    public String add(Model model) {
+    public String add(
+            Model model
+    ) {
         model.addAttribute("record", new FinancialEntity());
 
         return "addEdit";
@@ -121,7 +128,11 @@ public class IndexController {
         return "redirect:/";
     }
 
-    private void setDatesToModel(Model model, LocalDate startDate, LocalDate endDate) {
+    private void setDatesToModel(
+            Model model,
+            LocalDate startDate,
+            LocalDate endDate
+    ) {
         DateTimeFormatter linkDateFormatter = DateTimeFormatter.ofPattern("MM-yyyy");
         DateTimeFormatter humanDateFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
         LocalDate prevMonth = startDate.minusMonths(1);
@@ -136,7 +147,12 @@ public class IndexController {
         model.addAttribute("yearName", yearName);
     }
 
-    private void setMonthBalancesToModel(Model model, User user, List<FinancialEntity> finance, LocalDate startDate) {
+    private void setMonthBalancesToModel(
+            Model model,
+            User user,
+            List<FinancialEntity> finance,
+            LocalDate startDate
+    ) {
         Float previousSumBalance = financialService.sumBalanceForUserDueDate(user.getId(), startDate);
         Float currentMonthBalance = financialService.countBalance(finance);
         Float startBalance = user.getInitialDeposit() + previousSumBalance;
