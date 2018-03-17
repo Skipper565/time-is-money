@@ -40,15 +40,15 @@
                         <td>Balance at the beginning of the month.</td>
                         <td colspan="2" th:text="${startBalance}"/>
                     </tr>
-                    <tr th:each="fin : ${finance}">
+                    <tr th:each="fin : ${finance}" th:class="${fin.isPermanent} ? 'table-warning' : ''">
                         <td th:text="${#dates.format(fin.date, 'MM/dd/yyyy')}"/>
                         <td th:text="${fin.note}"/>
-                        <td th:text="${fin.value}"/>
+                        <td th:text="${fin.type == 'cost'} ? -${fin.value} : ${fin.value}"/>
                         <td><a th:href="'/edit/' + ${fin.type} + '/' + ${fin.id}">Edit</a> | <a th:href="'/delete/' + ${fin.type} + '/' + ${fin.id}">Delete</a></td>
                     </tr>
                     <tr class="table-primary">
                         <td th:text="${endDate}"/>
-                        <td>Balance at the beginning of the month.</td>
+                        <td>Balance at the end of the month.</td>
                         <td colspan="2" th:text="${endBalance}"/>
                     </tr>
                     </tbody>

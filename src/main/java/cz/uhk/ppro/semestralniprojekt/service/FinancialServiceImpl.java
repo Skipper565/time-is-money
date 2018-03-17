@@ -45,6 +45,7 @@ public class FinancialServiceImpl implements FinancialService {
             if (permanentDateInCurrentMonth.compareTo(revenue.getDate()) >= 0) {
                 Revenue copy = new Revenue(revenue);
                 copy.setDate(permanentDateInCurrentMonth);
+                copy.setIsPermanent(true);
                 revenueList.add(copy);
             }
         }
@@ -55,6 +56,7 @@ public class FinancialServiceImpl implements FinancialService {
             if (permanentDateInCurrentMonth.compareTo(cost.getDate()) >= 0) {
                 Cost copy = new Cost(cost);
                 copy.setDate(permanentDateInCurrentMonth);
+                copy.setIsPermanent(true);
                 costList.add(copy);
             }
         }
@@ -83,7 +85,7 @@ public class FinancialServiceImpl implements FinancialService {
 
         for (Revenue revenue : revenuePermanentList) {
             LocalDate revenueDate = revenue.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-            long monthDiff = ChronoUnit.MONTHS.between(revenueDate, date);
+            long monthDiff = ChronoUnit.MONTHS.between(revenueDate.withDayOfMonth(1), date);
             if (monthDiff > 0) {
                 if (sumRevenues == null) {
                     sumRevenues = 0f;
@@ -95,7 +97,7 @@ public class FinancialServiceImpl implements FinancialService {
 
         for (Cost cost : costPermanentList) {
             LocalDate costDate = cost.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-            long monthDiff = ChronoUnit.MONTHS.between(costDate, date);
+            long monthDiff = ChronoUnit.MONTHS.between(costDate.withDayOfMonth(1), date);
             if (monthDiff > 0) {
                 if (sumCosts == null) {
                     sumCosts = 0f;
