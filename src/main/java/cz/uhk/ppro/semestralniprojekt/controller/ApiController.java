@@ -1,6 +1,6 @@
 package cz.uhk.ppro.semestralniprojekt.controller;
 
-import cz.uhk.ppro.semestralniprojekt.api.MonthFinanceOverview;
+import cz.uhk.ppro.semestralniprojekt.model.api.MonthFinanceOverview;
 import cz.uhk.ppro.semestralniprojekt.model.FinancialEntity;
 import cz.uhk.ppro.semestralniprojekt.service.FinancialService;
 import cz.uhk.ppro.semestralniprojekt.model.user.User;

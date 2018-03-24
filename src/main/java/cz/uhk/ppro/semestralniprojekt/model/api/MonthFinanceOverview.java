@@ -1,4 +1,4 @@
-package cz.uhk.ppro.semestralniprojekt.api;
+package cz.uhk.ppro.semestralniprojekt.model.api;
 
 import cz.uhk.ppro.semestralniprojekt.model.FinancialEntity;
 
