@@ -1,6 +1,4 @@
-package cz.uhk.ppro.semestralniprojekt.user;
-
-import java.util.List;
+package cz.uhk.ppro.semestralniprojekt.model.user;
 
 import org.springframework.data.repository.CrudRepository;
 

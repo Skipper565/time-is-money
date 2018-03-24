@@ -1,7 +1,7 @@
-package cz.uhk.ppro.semestralniprojekt.permanent;
+package cz.uhk.ppro.semestralniprojekt.model.permanent;
 
-import cz.uhk.ppro.semestralniprojekt.cost.Cost;
-import cz.uhk.ppro.semestralniprojekt.revenue.Revenue;
+import cz.uhk.ppro.semestralniprojekt.model.cost.Cost;
+import cz.uhk.ppro.semestralniprojekt.model.revenue.Revenue;
 
 import javax.persistence.*;
 import java.io.Serializable;

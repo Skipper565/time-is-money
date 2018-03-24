@@ -1,6 +1,8 @@
 package cz.uhk.ppro.semestralniprojekt.model;
 
-import cz.uhk.ppro.semestralniprojekt.user.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sun.istack.internal.Nullable;
+import cz.uhk.ppro.semestralniprojekt.model.user.User;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -26,7 +28,16 @@ public class FinancialEntity implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     protected User user;
+
+    @Column(name = "latitude")
+    @Nullable
+    protected Float latitude;
+
+    @Column(name = "longitude")
+    @Nullable
+    protected Float longitude;
 
     @Transient
     private String type;
@@ -75,6 +86,22 @@ public class FinancialEntity implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Float getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Float latitude) {
+        this.latitude = latitude;
+    }
+
+    public Float getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Float longitude) {
+        this.longitude = longitude;
     }
 
     public String getType() {

@@ -1,4 +1,4 @@
-package cz.uhk.ppro.semestralniprojekt.permanent;
+package cz.uhk.ppro.semestralniprojekt.model.permanent;
 
 import org.springframework.data.repository.CrudRepository;
 

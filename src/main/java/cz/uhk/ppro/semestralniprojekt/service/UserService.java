@@ -1,6 +1,6 @@
 package cz.uhk.ppro.semestralniprojekt.service;
 
-import cz.uhk.ppro.semestralniprojekt.user.User;
+import cz.uhk.ppro.semestralniprojekt.model.user.User;
 
 public interface UserService {
 

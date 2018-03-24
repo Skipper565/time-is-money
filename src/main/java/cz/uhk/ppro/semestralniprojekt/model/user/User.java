@@ -1,4 +1,4 @@
-package cz.uhk.ppro.semestralniprojekt.user;
+package cz.uhk.ppro.semestralniprojekt.model.user;
 
 import org.hibernate.validator.constraints.NotEmpty;
 

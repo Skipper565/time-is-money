@@ -1,7 +1,8 @@
-package cz.uhk.ppro.semestralniprojekt.cost;
+package cz.uhk.ppro.semestralniprojekt.model.cost;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import cz.uhk.ppro.semestralniprojekt.model.FinancialEntity;
-import cz.uhk.ppro.semestralniprojekt.permanent.Permanent;
+import cz.uhk.ppro.semestralniprojekt.model.permanent.Permanent;
 
 import javax.persistence.*;
 
@@ -12,6 +13,7 @@ import javax.persistence.*;
 public class Cost extends FinancialEntity {
 
     @OneToOne(mappedBy = "cost")
+    @JsonIgnore
     private Permanent permanent;
 
     public Cost() {}
@@ -22,6 +24,8 @@ public class Cost extends FinancialEntity {
         this.value = cost.value;
         this.note = cost.note;
         this.user = cost.user;
+        this.latitude = cost.latitude;
+        this.longitude = cost.longitude;
         this.permanent = cost.permanent;
     }
 

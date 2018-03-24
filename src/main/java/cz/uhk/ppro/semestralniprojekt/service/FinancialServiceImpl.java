@@ -1,13 +1,13 @@
 package cz.uhk.ppro.semestralniprojekt.service;
 
-import cz.uhk.ppro.semestralniprojekt.cost.Cost;
-import cz.uhk.ppro.semestralniprojekt.cost.CostRepository;
+import cz.uhk.ppro.semestralniprojekt.model.cost.Cost;
+import cz.uhk.ppro.semestralniprojekt.model.cost.CostRepository;
 import cz.uhk.ppro.semestralniprojekt.model.FinancialEntity;
-import cz.uhk.ppro.semestralniprojekt.permanent.Permanent;
-import cz.uhk.ppro.semestralniprojekt.permanent.PermanentRepository;
-import cz.uhk.ppro.semestralniprojekt.revenue.Revenue;
-import cz.uhk.ppro.semestralniprojekt.revenue.RevenueRepository;
-import cz.uhk.ppro.semestralniprojekt.user.User;
+import cz.uhk.ppro.semestralniprojekt.model.permanent.Permanent;
+import cz.uhk.ppro.semestralniprojekt.model.permanent.PermanentRepository;
+import cz.uhk.ppro.semestralniprojekt.model.revenue.Revenue;
+import cz.uhk.ppro.semestralniprojekt.model.revenue.RevenueRepository;
+import cz.uhk.ppro.semestralniprojekt.model.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,9 +1,9 @@
-package cz.uhk.ppro.semestralniprojekt;
+package cz.uhk.ppro.semestralniprojekt.controller;
 
 import cz.uhk.ppro.semestralniprojekt.model.FinancialEntity;
 import cz.uhk.ppro.semestralniprojekt.service.FinancialService;
-import cz.uhk.ppro.semestralniprojekt.user.User;
-import cz.uhk.ppro.semestralniprojekt.user.UserRepository;
+import cz.uhk.ppro.semestralniprojekt.model.user.User;
+import cz.uhk.ppro.semestralniprojekt.model.user.UserRepository;
 import cz.uhk.ppro.semestralniprojekt.validator.FinancialValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

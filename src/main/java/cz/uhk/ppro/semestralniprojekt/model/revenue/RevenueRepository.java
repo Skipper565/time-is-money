@@ -1,4 +1,4 @@
-package cz.uhk.ppro.semestralniprojekt.revenue;
+package cz.uhk.ppro.semestralniprojekt.model.revenue;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;

@@ -1,8 +1,8 @@
 package cz.uhk.ppro.semestralniprojekt.service;
 
 
-import cz.uhk.ppro.semestralniprojekt.user.User;
-import cz.uhk.ppro.semestralniprojekt.user.UserRepository;
+import cz.uhk.ppro.semestralniprojekt.model.user.User;
+import cz.uhk.ppro.semestralniprojekt.model.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -1,7 +1,8 @@
-package cz.uhk.ppro.semestralniprojekt.revenue;
+package cz.uhk.ppro.semestralniprojekt.model.revenue;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import cz.uhk.ppro.semestralniprojekt.model.FinancialEntity;
-import cz.uhk.ppro.semestralniprojekt.permanent.Permanent;
+import cz.uhk.ppro.semestralniprojekt.model.permanent.Permanent;
 
 import javax.persistence.*;
 
@@ -12,6 +13,7 @@ import javax.persistence.*;
 public class Revenue extends FinancialEntity {
 
     @OneToOne(mappedBy = "revenue")
+    @JsonIgnore
     private Permanent permanent;
 
     public Revenue() {}
@@ -22,6 +24,8 @@ public class Revenue extends FinancialEntity {
         this.value = revenue.value;
         this.note = revenue.note;
         this.user = revenue.user;
+        this.latitude = revenue.latitude;
+        this.longitude = revenue.longitude;
         this.permanent = revenue.permanent;
     }
 

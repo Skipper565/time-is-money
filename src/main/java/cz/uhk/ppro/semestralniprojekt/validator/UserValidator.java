@@ -1,7 +1,7 @@
 package cz.uhk.ppro.semestralniprojekt.validator;
 
 import cz.uhk.ppro.semestralniprojekt.service.UserService;
-import cz.uhk.ppro.semestralniprojekt.user.User;
+import cz.uhk.ppro.semestralniprojekt.model.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;

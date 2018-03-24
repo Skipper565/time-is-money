@@ -1,7 +1,7 @@
 package cz.uhk.ppro.semestralniprojekt.service;
 
 import cz.uhk.ppro.semestralniprojekt.model.FinancialEntity;
-import cz.uhk.ppro.semestralniprojekt.user.User;
+import cz.uhk.ppro.semestralniprojekt.model.user.User;
 
 import java.time.LocalDate;
 import java.util.List;

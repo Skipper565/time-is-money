@@ -1,8 +1,8 @@
-package cz.uhk.ppro.semestralniprojekt;
+package cz.uhk.ppro.semestralniprojekt.controller;
 
 import cz.uhk.ppro.semestralniprojekt.service.SecurityService;
 import cz.uhk.ppro.semestralniprojekt.service.UserService;
-import cz.uhk.ppro.semestralniprojekt.user.User;
+import cz.uhk.ppro.semestralniprojekt.model.user.User;
 import cz.uhk.ppro.semestralniprojekt.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
