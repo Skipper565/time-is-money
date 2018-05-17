@@ -1,8 +1,8 @@
 package cz.uhk.ppro.semestralniprojekt.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.sun.istack.internal.Nullable;
 import cz.uhk.ppro.semestralniprojekt.model.user.User;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
