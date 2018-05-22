@@ -1,1 +1,1 @@
-web: java -jar target/semestralni-projekt-0.0.1-SNAPSHOT.jar
+web: java -war target/semestralni-projekt-0.0.1-SNAPSHOT.war
