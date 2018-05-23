@@ -54,10 +54,10 @@
 		</dependency>
 
 		<!-- Spring data JPA, default tomcat pool, exclude it -->
-		<!-- <dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
-		</dependency>-->
+		</dependency>
 
 		<!-- Oracle JDBC driver -->
 		<dependency>
@@ -83,6 +83,11 @@
 			<groupId>org.jetbrains</groupId>
 			<artifactId>annotations</artifactId>
 			<version>13.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-dbcp</groupId>
+			<artifactId>commons-dbcp</artifactId>
 		</dependency>
 	</dependencies>
 
