@@ -9,7 +9,6 @@ import javax.persistence.*;
 @Entity
 @Table(name = "costs")
 @AttributeOverride(name = "date", column = @Column(name = "cos_date"))
-@SequenceGenerator(name = "default_gen", sequenceName = "SEQ_COST")
 public class Cost extends FinancialEntity {
 
     @OneToOne(mappedBy = "cost")

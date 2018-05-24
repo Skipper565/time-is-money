@@ -14,7 +14,7 @@ public class FinancialEntity implements Serializable {
 
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "default_gen")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     protected Integer id;
 
     @DateTimeFormat(pattern = "MM/dd/yyyy")

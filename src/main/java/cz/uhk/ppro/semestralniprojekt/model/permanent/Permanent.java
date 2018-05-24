@@ -12,8 +12,7 @@ public class Permanent implements Serializable {
 
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_permanent")
-    @SequenceGenerator(name = "id_permanent", sequenceName = "SEQ_PERMANENT")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     @OneToOne
