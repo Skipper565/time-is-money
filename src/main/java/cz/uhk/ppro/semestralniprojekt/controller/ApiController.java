@@ -7,6 +7,8 @@ import cz.uhk.ppro.semestralniprojekt.model.user.User;
 import cz.uhk.ppro.semestralniprojekt.model.user.UserRepository;
 import cz.uhk.ppro.semestralniprojekt.validator.FinancialValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,7 +38,7 @@ public class ApiController {
     }
 
     @RequestMapping("/monthFinanceOverview")
-    public MonthFinanceOverview monthFinanceOverview(
+    public ResponseEntity<MonthFinanceOverview> monthFinanceOverview(
             @RequestParam(value = "month", required = false) String month,
             Principal principal
     ) {
@@ -65,7 +67,8 @@ public class ApiController {
         Float startBalance = user.getInitialDeposit() + previousSumBalance;
         Float endBalance = startBalance + currentMonthBalance;
 
-        return new MonthFinanceOverview(startBalance, endBalance, finance);
+        MonthFinanceOverview monthFinanceOverview = new MonthFinanceOverview(startBalance, endBalance, finance);
+        return new ResponseEntity<>(monthFinanceOverview, HttpStatus.OK);
     }
 
 }
