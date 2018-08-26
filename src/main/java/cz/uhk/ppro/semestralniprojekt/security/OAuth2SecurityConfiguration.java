@@ -29,7 +29,7 @@ public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private ClientDetailsService clientDetailsService;
 
     @Autowired
-    public void globalUserDetails(AuthenticationManagerBuilder auth) throws Exception {
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
     }
 
