@@ -6,6 +6,7 @@ import cz.uhk.ppro.semestralniprojekt.model.user.User;
 import cz.uhk.ppro.semestralniprojekt.model.user.UserRepository;
 import cz.uhk.ppro.semestralniprojekt.validator.FinancialValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,6 +22,7 @@ import java.util.List;
 import java.util.Locale;
 
 @Controller
+@EnableResourceServer
 public class IndexController {
 
     private final UserRepository users;
