@@ -8,6 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 
 @MappedSuperclass
 public class FinancialEntity implements Serializable {
@@ -126,6 +127,40 @@ public class FinancialEntity implements Serializable {
 
     public void setMonthDay(Integer monthDay) {
         this.monthDay = monthDay;
+    }
+
+    @Override
+    public String toString() {
+        return "FinancialEntity{" +
+                "id=" + id +
+                ", date=" + date +
+                ", value=" + value +
+                ", note='" + note + '\'' +
+                ", user=" + user +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
+                ", type='" + type + '\'' +
+                ", isPermanent=" + isPermanent +
+                ", monthDay=" + monthDay +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        FinancialEntity that = (FinancialEntity) o;
+        return Float.compare(that.value, value) == 0 &&
+                Objects.equals(date, that.date) &&
+                Objects.equals(user, that.user) &&
+                Objects.equals(type, that.type) &&
+                Objects.equals(isPermanent, that.isPermanent) &&
+                Objects.equals(monthDay, that.monthDay);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(date, value, user, type, isPermanent, monthDay);
     }
 
 }

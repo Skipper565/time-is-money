@@ -76,18 +76,20 @@ public class ApiController {
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ResponseEntity<Void> add(@RequestBody FinancialEntity financialEntity, UriComponentsBuilder ucBuilder) {
-        HashMap map = new HashMap<Integer, FinancialEntity>();
-        map.put(Integer.MIN_VALUE, financialEntity);
-        BindingResult bindingResult = BindingResultUtils.getBindingResult(map, "FinancialEntity");
+    public ResponseEntity<Void> add(@RequestBody FinancialEntity financialEntity, UriComponentsBuilder ucBuilder,
+                                    BindingResult bindingResult, Principal principal) throws BindException {
+        User user = users.findByUsername(principal.getName());
+        financialEntity.setUser(user);
         financialValidator.validate(financialEntity, bindingResult);
         if (bindingResult.hasErrors()) {
-            return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
+
+        financialService.save(financialEntity);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ucBuilder.path("/monthFinanceOverview").build().toUri());
-        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+        return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
 }
