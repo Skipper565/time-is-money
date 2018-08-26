@@ -6,17 +6,24 @@ import cz.uhk.ppro.semestralniprojekt.service.FinancialService;
 import cz.uhk.ppro.semestralniprojekt.model.user.User;
 import cz.uhk.ppro.semestralniprojekt.model.user.UserRepository;
 import cz.uhk.ppro.semestralniprojekt.validator.FinancialValidator;
+import org.springframework.beans.PropertyEditorRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.*;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.beans.PropertyEditor;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoField;
 import java.time.temporal.ValueRange;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
@@ -66,6 +73,21 @@ public class ApiController {
         Float endBalance = startBalance + currentMonthBalance;
 
         return new MonthFinanceOverview(startBalance, endBalance, finance);
+    }
+
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    public ResponseEntity<Void> add(@RequestBody FinancialEntity financialEntity, UriComponentsBuilder ucBuilder) {
+        HashMap map = new HashMap<Integer, FinancialEntity>();
+        map.put(Integer.MIN_VALUE, financialEntity);
+        BindingResult bindingResult = BindingResultUtils.getBindingResult(map, "FinancialEntity");
+        financialValidator.validate(financialEntity, bindingResult);
+        if (bindingResult.hasErrors()) {
+            return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+        }
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(ucBuilder.path("/monthFinanceOverview").build().toUri());
+        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
     }
 
 }
