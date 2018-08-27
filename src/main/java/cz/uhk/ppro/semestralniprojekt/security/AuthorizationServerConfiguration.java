@@ -28,8 +28,8 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
                 .authorizedGrantTypes("password", "authorization_code", "refresh_token", "implicit")
                 .scopes("read", "write", "trust")
                 .secret("secret")
-                .accessTokenValiditySeconds(120).//Access token is only valid for 2 minutes.
-                refreshTokenValiditySeconds(600);//Refresh token is only valid for 10 minutes.
+                .accessTokenValiditySeconds(1200).//Access token is only valid for 20 minutes.
+                refreshTokenValiditySeconds(3600);//Refresh token is only valid for 60 minutes.
     }
 
     @Override
