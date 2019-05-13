@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Locale;
 
 @Controller
-@EnableResourceServer
 public class IndexController {
 
     private final UserRepository users;
