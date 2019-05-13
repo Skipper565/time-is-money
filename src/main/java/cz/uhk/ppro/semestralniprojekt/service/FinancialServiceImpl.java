@@ -16,7 +16,9 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
 
 @Service
 public class FinancialServiceImpl implements FinancialService {
@@ -61,12 +63,17 @@ public class FinancialServiceImpl implements FinancialService {
             }
         }
 
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Europe/Prague"));
         for (Revenue revenue : revenueList) {
             revenue.setType("revenue");
+            calendar.setTime(revenue.getDate());
+            revenue.setMonthDay(calendar.get(Calendar.DAY_OF_MONTH));
         }
 
         for (Cost cost : costList) {
             cost.setType("cost");
+            calendar.setTime(cost.getDate());
+            cost.setMonthDay(calendar.get(Calendar.DAY_OF_MONTH));
         }
 
         finance.addAll(revenueList);
@@ -195,16 +202,8 @@ public class FinancialServiceImpl implements FinancialService {
     }
 
     private void saveCost(FinancialEntity entity) {
-        Cost cost = new Cost();
         Permanent permanent = permanentRepository.findOneByCostId(entity.getId());
-
-        cost.setId(entity.getId());
-        cost.setDate(entity.getDate());
-        cost.setValue(entity.getValue());
-        cost.setNote(entity.getNote());
-        cost.setUser(entity.getUser());
-
-        cost = costRepository.save(cost);
+        Cost cost = costRepository.save(new Cost(entity));
 
         if (entity.getIsPermanent()) {
             if (permanent == null) {
@@ -220,16 +219,8 @@ public class FinancialServiceImpl implements FinancialService {
     }
 
     private void saveRevenue(FinancialEntity entity) {
-        Revenue revenue = new Revenue();
         Permanent permanent = permanentRepository.findOneByRevenueId(entity.getId());
-
-        revenue.setId(entity.getId());
-        revenue.setDate(entity.getDate());
-        revenue.setValue(entity.getValue());
-        revenue.setNote(entity.getNote());
-        revenue.setUser(entity.getUser());
-
-        revenue = revenueRepository.save(revenue);
+        Revenue revenue = revenueRepository.save(new Revenue(entity));
 
         if (entity.getIsPermanent()) {
             if (permanent == null) {

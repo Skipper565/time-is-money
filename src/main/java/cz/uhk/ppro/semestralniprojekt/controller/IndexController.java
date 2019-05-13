@@ -44,6 +44,10 @@ public class IndexController {
             Model model,
             Principal principal
     ) {
+        if (principal == null) {
+            return "redirect:/login";
+        }
+
         DateTimeFormatter monthDateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         User user = users.findByUsername(principal.getName());
         LocalDate date = LocalDate.now();

@@ -50,7 +50,6 @@
                             <p th:each="error : ${#fields.errors('initialDeposit')}"
                                th:text="${error}">Validation error</p>
                         </div>
-                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                         <div class="row justify-content-center">
                             <button type="submit">Submit</button>
                         </div>

@@ -28,6 +28,15 @@ public class Cost extends FinancialEntity {
         this.permanent = cost.permanent;
     }
 
+    public Cost(FinancialEntity entity) {
+        this.date = entity.getDate();
+        this.value = entity.getValue();
+        this.note = entity.getNote();
+        this.user = entity.getUser();
+        this.latitude = entity.getLatitude();
+        this.longitude = entity.getLongitude();
+    }
+
     public Permanent getPermanent() {
         return permanent;
     }

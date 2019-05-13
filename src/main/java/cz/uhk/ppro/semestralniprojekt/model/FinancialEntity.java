@@ -89,19 +89,21 @@ public class FinancialEntity implements Serializable {
         this.user = user;
     }
 
+    @Nullable
     public Float getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(Float latitude) {
+    public void setLatitude(@Nullable Float latitude) {
         this.latitude = latitude;
     }
 
+    @Nullable
     public Float getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(Float longitude) {
+    public void setLongitude(@Nullable Float longitude) {
         this.longitude = longitude;
     }
 

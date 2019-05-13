@@ -28,6 +28,15 @@ public class Revenue extends FinancialEntity {
         this.permanent = revenue.permanent;
     }
 
+    public Revenue(FinancialEntity entity) {
+        this.date = entity.getDate();
+        this.value = entity.getValue();
+        this.note = entity.getNote();
+        this.user = entity.getUser();
+        this.latitude = entity.getLatitude();
+        this.longitude = entity.getLongitude();
+    }
+
     public Permanent getPermanent() {
         return permanent;
     }
