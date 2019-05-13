@@ -5,25 +5,21 @@ import cz.uhk.ppro.semestralniprojekt.model.FinancialEntity;
 import cz.uhk.ppro.semestralniprojekt.service.FinancialService;
 import cz.uhk.ppro.semestralniprojekt.model.user.User;
 import cz.uhk.ppro.semestralniprojekt.model.user.UserRepository;
+import cz.uhk.ppro.semestralniprojekt.service.UserService;
 import cz.uhk.ppro.semestralniprojekt.validator.FinancialValidator;
-import org.springframework.beans.PropertyEditorRegistry;
+import cz.uhk.ppro.semestralniprojekt.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.*;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
 
-import java.beans.PropertyEditor;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoField;
 import java.time.temporal.ValueRange;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
@@ -32,7 +28,13 @@ public class ApiController {
     private final UserRepository users;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private FinancialService financialService;
+
+    @Autowired
+    private UserValidator userValidator;
 
     @Autowired
     private FinancialValidator financialValidator;
@@ -75,9 +77,9 @@ public class ApiController {
         return new MonthFinanceOverview(startBalance, endBalance, finance);
     }
 
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ResponseEntity<Void> add(@RequestBody FinancialEntity financialEntity, UriComponentsBuilder ucBuilder,
-                                    BindingResult bindingResult, Principal principal) throws BindException {
+    @RequestMapping(value = "/addFinancialEntity", method = RequestMethod.POST)
+    public ResponseEntity<Void> addFinancialEntity(@RequestBody FinancialEntity financialEntity,
+                                                   BindingResult bindingResult, Principal principal) {
         User user = users.findByUsername(principal.getName());
         financialEntity.setUser(user);
         financialValidator.validate(financialEntity, bindingResult);
@@ -86,10 +88,18 @@ public class ApiController {
         }
 
         financialService.save(financialEntity);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(ucBuilder.path("/monthFinanceOverview").build().toUri());
-        return new ResponseEntity<>(headers, HttpStatus.CREATED);
+    @RequestMapping(value = "/addUser", method = RequestMethod.POST)
+    public ResponseEntity<Void> addUser(@RequestBody User user, BindingResult bindingResult) {
+        userValidator.validate(user, bindingResult);
+        if (bindingResult.hasErrors()) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+
+        userService.save(user);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
 }

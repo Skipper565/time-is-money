@@ -24,27 +24,30 @@ public class UserValidator implements Validator {
         User user = (User) o;
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "NotEmpty");
-        if (user.getUsername().length() < 6 || user.getUsername().length() > 32) {
-            errors.rejectValue("username", "Size.userForm.username");
-        }
-        if (userService.findByUsername(user.getUsername()) != null) {
-            errors.rejectValue("username", "Duplicate.userForm.username");
-        }
-
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "NotEmpty");
-
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "NotEmpty");
-        if (user.getPassword().length() < 8 || user.getPassword().length() > 32) {
-            errors.rejectValue("password", "Size.userForm.password");
-        }
-
-        if (!user.getMatchingPassword().equals(user.getPassword())) {
-            errors.rejectValue("matchingPassword", "Diff.userForm.matchingPassword");
-        }
-
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "matchingPassword", "NotEmpty");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "initialDeposit", "NotEmpty");
-        if (user.getInitialDeposit() < 0) {
-            errors.rejectValue("initialDeposit", "Size.userForm.initialDeposit");
+        if (!errors.hasErrors()) {
+            if (user.getUsername().length() < 6 || user.getUsername().length() > 32) {
+                errors.rejectValue("username", "Size.userForm.username");
+            }
+
+            if (userService.findByUsername(user.getUsername()) != null) {
+                errors.rejectValue("username", "Duplicate.userForm.username");
+            }
+
+            if (user.getPassword().length() < 8 || user.getPassword().length() > 32) {
+                errors.rejectValue("password", "Size.userForm.password");
+            }
+
+            if (!user.getMatchingPassword().equals(user.getPassword())) {
+                errors.rejectValue("matchingPassword", "Diff.userForm.matchingPassword");
+            }
+
+            if (user.getInitialDeposit() < 0) {
+                errors.rejectValue("initialDeposit", "Size.userForm.initialDeposit");
+            }
         }
     }
 

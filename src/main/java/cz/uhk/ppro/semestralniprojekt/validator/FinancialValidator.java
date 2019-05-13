@@ -19,16 +19,17 @@ public class FinancialValidator implements Validator {
         FinancialEntity entity = (FinancialEntity) o;
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "value", "NotEmpty");
-        if (entity.getValue() < 0) {
-            errors.rejectValue("value", "Size.financeForm.value");
-        }
-
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "date", "NotEmpty");
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "type", "NotEmpty");
+        if (!errors.hasErrors()) {
+            if (entity.getValue() < 0) {
+                errors.rejectValue("value", "Size.financeForm.value");
+            }
 
-        if (entity.getMonthDay() != null && (entity.getMonthDay() < 1 || entity.getMonthDay() > 28)) {
-            errors.rejectValue("monthDay", "Size.financeForm.monthDay");
+            if (entity.getMonthDay() != null && (entity.getMonthDay() < 1 || entity.getMonthDay() > 28)) {
+                errors.rejectValue("monthDay", "Size.financeForm.monthDay");
+            }
         }
     }
 
