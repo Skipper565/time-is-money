@@ -6,7 +6,6 @@ import cz.uhk.ppro.semestralniprojekt.model.user.User;
 import cz.uhk.ppro.semestralniprojekt.model.user.UserRepository;
 import cz.uhk.ppro.semestralniprojekt.validator.FinancialValidator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -43,10 +42,6 @@ public class IndexController {
             Model model,
             Principal principal
     ) {
-        if (principal == null) {
-            return "redirect:/login";
-        }
-
         DateTimeFormatter monthDateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         User user = users.findByUsername(principal.getName());
         LocalDate date = LocalDate.now();

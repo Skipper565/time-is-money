@@ -44,8 +44,11 @@ public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
             .formLogin()
                 .loginPage("/login")
+                .successForwardUrl("/")
                 .permitAll()
-                .and();
+                .and()
+            .logout()
+                .permitAll();
     }
 
     @Autowired
