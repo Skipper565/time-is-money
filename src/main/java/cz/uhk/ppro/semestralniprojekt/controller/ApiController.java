@@ -1,17 +1,17 @@
 package cz.uhk.ppro.semestralniprojekt.controller;
 
-import cz.uhk.ppro.semestralniprojekt.model.api.MonthFinanceOverview;
 import cz.uhk.ppro.semestralniprojekt.model.FinancialEntity;
-import cz.uhk.ppro.semestralniprojekt.service.FinancialService;
+import cz.uhk.ppro.semestralniprojekt.model.api.MonthFinanceOverview;
 import cz.uhk.ppro.semestralniprojekt.model.user.User;
 import cz.uhk.ppro.semestralniprojekt.model.user.UserRepository;
+import cz.uhk.ppro.semestralniprojekt.service.FinancialService;
 import cz.uhk.ppro.semestralniprojekt.service.UserService;
 import cz.uhk.ppro.semestralniprojekt.validator.FinancialValidator;
 import cz.uhk.ppro.semestralniprojekt.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.*;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -78,7 +78,7 @@ public class ApiController {
     }
 
     @RequestMapping(value = "/addFinancialEntity", method = RequestMethod.POST)
-    public ResponseEntity<Void> addFinancialEntity(@RequestBody FinancialEntity financialEntity,
+    public ResponseEntity<String> addFinancialEntity(@RequestBody FinancialEntity financialEntity,
                                                    BindingResult bindingResult, Principal principal) {
         User user = users.findByUsername(principal.getName());
         financialEntity.setUser(user);
@@ -88,18 +88,18 @@ public class ApiController {
         }
 
         financialService.save(financialEntity);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>("{success:true}", HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/addUser", method = RequestMethod.POST)
-    public ResponseEntity<Void> addUser(@RequestBody User user, BindingResult bindingResult) {
+    public ResponseEntity<String> addUser(@RequestBody User user, BindingResult bindingResult) {
         userValidator.validate(user, bindingResult);
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
 
         userService.save(user);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>("{success:true}", HttpStatus.CREATED);
     }
 
 }
