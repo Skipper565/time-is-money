@@ -49,32 +49,34 @@ public class ApiController {
             @RequestParam(value = "month", required = false) String month,
             Principal principal
     ) {
-        DateTimeFormatter monthDateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        DateTimeFormatter monthDateFormatter = DateTimeFormatter.ofPattern("MM-yyyy");
         User user = users.findByUsername(principal.getName());
         LocalDate date = LocalDate.now();
 
         if (month != null) {
             try {
-                date = LocalDate.parse("01-" + month, monthDateFormatter);
+                date = LocalDate.parse(month, monthDateFormatter);
             } catch (java.time.format.DateTimeParseException e) {
                 date = LocalDate.now();
             }
+        } else {
+            month = monthDateFormatter.format(date);
         }
 
         ValueRange range = date.range(ChronoField.DAY_OF_MONTH);
-        Long min = range.getMinimum();
-        Long max = range.getMaximum();
-        LocalDate startDate = date.withDayOfMonth(min.intValue());
-        LocalDate endDate = date.withDayOfMonth(max.intValue());
+        long min = range.getMinimum();
+        long max = range.getMaximum();
+        LocalDate startDate = date.withDayOfMonth((int) min);
+        LocalDate endDate = date.withDayOfMonth((int) max);
 
         List<FinancialEntity> finance =
                 financialService.getIntervalFinancialEntitiesForUser(user.getId(), startDate, endDate);
         Float previousSumBalance = financialService.sumBalanceForUserDueDate(user.getId(), startDate);
         Float currentMonthBalance = financialService.countBalance(finance);
         Float startBalance = user.getInitialDeposit() + previousSumBalance;
-        Float endBalance = startBalance + currentMonthBalance;
+        float endBalance = startBalance + currentMonthBalance;
 
-        return new MonthFinanceOverview(startBalance, endBalance, finance);
+        return new MonthFinanceOverview(month, startBalance, endBalance, finance);
     }
 
     @RequestMapping(value = "/addFinancialEntity", method = RequestMethod.POST)

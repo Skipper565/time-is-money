@@ -6,26 +6,16 @@ import java.util.List;
 
 public class MonthFinanceOverview {
 
+    private String date;
     private float startBalance;
     private float endBalance;
     private List<FinancialEntity> financeList;
 
-    public MonthFinanceOverview(float startBalance, float endBalance, List<FinancialEntity> financeList) {
+    public MonthFinanceOverview(String date, float startBalance, float endBalance, List<FinancialEntity> financeList) {
+        this.date = date;
         this.startBalance = startBalance;
         this.endBalance = endBalance;
         this.financeList = financeList;
-    }
-
-    public float getStartBalance() {
-        return startBalance;
-    }
-
-    public float getEndBalance() {
-        return endBalance;
-    }
-
-    public List<FinancialEntity> getFinanceList() {
-        return financeList;
     }
 
 }
