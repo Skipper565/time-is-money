@@ -18,4 +18,19 @@ public class MonthFinanceOverview {
         this.financeList = financeList;
     }
 
+    public String getDate() {
+        return date;
+    }
+
+    public float getStartBalance() {
+        return startBalance;
+    }
+
+    public float getEndBalance() {
+        return endBalance;
+    }
+
+    public List<FinancialEntity> getFinanceList() {
+        return financeList;
+    }
 }
