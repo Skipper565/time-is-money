@@ -49,17 +49,18 @@ public class ApiController {
             @RequestParam(value = "month", required = false) String month,
             Principal principal
     ) {
-        DateTimeFormatter monthDateFormatter = DateTimeFormatter.ofPattern("MM-yyyy");
         User user = users.findByUsername(principal.getName());
         LocalDate date = LocalDate.now();
 
         if (month != null) {
+            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
             try {
-                date = LocalDate.parse(month, monthDateFormatter);
+                date = LocalDate.parse("01-" + month, dateFormatter);
             } catch (java.time.format.DateTimeParseException e) {
                 date = LocalDate.now();
             }
         } else {
+            DateTimeFormatter monthDateFormatter = DateTimeFormatter.ofPattern("MM-yyyy");
             month = monthDateFormatter.format(date);
         }
 
